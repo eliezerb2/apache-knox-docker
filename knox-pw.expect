@@ -1,4 +1,4 @@
-#!/usr/bin/env expect
+#!/usr/bin/expect
 
 spawn /opt/knox/bin/knoxcli.sh create-master --force
 
