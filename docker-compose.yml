@@ -1,11 +1,44 @@
 version: '3.8'
 
 services:
+  servicea1:
+    container_name: servicea1
+    image: ${NGINX_IMAGE}
+    ports:
+      - "${SERVICEA1_EXTERNAL_PORT}:${SERVICEA_INTERNAL_PORT}"
+    volumes:
+      - ./servicea1:/usr/share/nginx/html
+    healthcheck:
+        test: ["CMD", "curl", "", 
+          "http://localhost:${SERVICEA1_INTERNAL_PORT}"]
+        interval: ${HEALTH_INTERVAL}
+        timeout: ${HEALTH_TIMEOUT}
+        retries: ${HEALTH_RETRIES}
+        start_period: ${HEALTH_START_PERIOD}
+        start_interval: ${HEALTH_START_INTERVAL}
+    #curl http://servicea1:80/index.html
+    #http://localhost:8081/
+  servicea2:
+    container_name: servicea2
+    image: ${NGINX_IMAGE}
+    ports:
+      - "${SERVICEA2_EXTERNAL_PORT}:${SERVICEA_INTERNAL_PORT}"
+    volumes:
+      - ./servicea2:/usr/share/nginx/html
+    healthcheck:
+        test: ["CMD", "curl", "", 
+          "http://localhost:${SERVICEA2_INTERNAL_PORT}"]
+        interval: ${HEALTH_INTERVAL}
+        timeout: ${HEALTH_TIMEOUT}
+        retries: ${HEALTH_RETRIES}
+        start_period: ${HEALTH_START_PERIOD}
+        start_interval: ${HEALTH_START_INTERVAL}
+    #http://localhost:8082/
   knoxgw:
     container_name: knoxgw
-    image: knox
+    image: knoxgw
     build:
-      context: .
+      context: ./knoxgw
       dockerfile: ./Dockerfile
       args:
         - knox_release_mirror=${KNOX_RELEASE_MIRROR}
@@ -15,13 +48,17 @@ services:
         - knox_admin_user=${KNOX_ADMIN_USER}
     ports:
         - "${KNOX_EXTERNAL_PORT}:${KNOX_INTERNAL_PORT}"
-    #curl -ku admin:admin-password https://localhost:8443/gateway/manager/admin-ui/
-    #curl -kf https://localhost:8443/gateway/manager/admin-ui
+    depends_on:
+      - servicea1
+      - servicea2
+    #curl -ku admin:admin-password https://localhost:8445/gateway/manager/admin-ui/
+    #curl -kf https://localhost:8445/gateway/manager/admin-ui
+    #curl -ku admin:admin-password https://localhost:8445/gateway/anyservice/servicea/index.html
     healthcheck:
         test: ["CMD", "curl", "-ku admin:admin-password", 
-          "https://localhost:${KNOX_EXTERNAL_PORT}/gateway/manager/admin-ui"]
-        interval: 30s
-        timeout: 5s
-        retries: 3
-        start_period: 30s
-        start_interval: 5s
+          "https://localhost:${KNOX_INTERNAL_PORT}/gateway/anyservice/servicea/index.html"]
+        interval: ${HEALTH_INTERVAL}
+        timeout: ${HEALTH_TIMEOUT}
+        retries: ${HEALTH_RETRIES}
+        start_period: ${HEALTH_START_PERIOD}
+        start_interval: ${HEALTH_START_INTERVAL}

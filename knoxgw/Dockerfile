@@ -52,9 +52,24 @@ USER ${KNOX_USER}
 # Create credentials
 RUN expect /tmp/knox-pw.expect
 
-#HEALTHCHECK --interval=1m --timeout=3s \
-#  CMD curl -f https://localhost:8443 || exit 1
-
 # Start knox
 WORKDIR $GATEWAY_HOME
 CMD ["/opt/run-knox.sh"]
+
+FROM knox AS knoxgw
+
+ARG service_name=servicea
+ARG service_role=SERVICEA
+ARG service_version=0.0.1
+ENV SERVICE_NAME=${service_name}
+ENV SERVICE_ROLE=${service_role}
+ENV SERVICE_VERSION=${service_version}
+
+# copy service files
+ENV SERVICE_RELATIVE_PATH=${SERVICE_NAME}/${SERVICE_VERSION}
+ENV SERVICE_FULL_PATH=${GATEWAY_HOME}/data/services/${SERVICE_RELATIVE_PATH}/
+RUN mkdir -p ${SERVICE_FULL_PATH}/
+COPY services/${SERVICE_RELATIVE_PATH} ${SERVICE_FULL_PATH}/
+
+# add service to topology
+COPY topologies ${GATEWAY_HOME}/conf/topologies/

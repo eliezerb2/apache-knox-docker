@@ -1,0 +1,6 @@
+<service role="SERVICEA" name="servicea" version="0.0.1">
+  <routes>
+    <!-- <route path="/servicea/**"/> -->
+    <route path="/**"/>
+  </routes>
+</service>
