@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   knoxgw:
@@ -7,3 +7,21 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        - knox_release_mirror=${KNOX_RELEASE_MIRROR}
+        - knox_version=${KNOX_VERSION}
+        - knox_user_group=${KNOX_USER_GROUP}
+        - knox_user=${KNOX_USER}
+        - knox_admin_user=${KNOX_ADMIN_USER}
+    ports:
+        - "${KNOX_EXTERNAL_PORT}:${KNOX_INTERNAL_PORT}"
+    #curl -ku admin:admin-password https://localhost:8443/gateway/manager/admin-ui/
+    #curl -kf https://localhost:8443/gateway/manager/admin-ui
+    healthcheck:
+        test: ["CMD", "curl", "-ku admin:admin-password", 
+          "https://localhost:${KNOX_EXTERNAL_PORT}/gateway/manager/admin-ui"]
+        interval: 30s
+        timeout: 5s
+        retries: 3
+        start_period: 30s
+        start_interval: 5s

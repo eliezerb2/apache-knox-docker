@@ -1,11 +1,11 @@
 #!/usr/bin/expect
 
-spawn /opt/knox/bin/knoxcli.sh create-master --force
+spawn $env(GATEWAY_HOME)/bin/knoxcli.sh create-master --force
 
 expect "Enter master secret:"
-send "admin\r"
+send $env(KNOX_ADMIN_USER)\n
 
 expect "Enter master secret again:"
-send "admin\r"
+send $env(KNOX_ADMIN_USER)\n
 
 expect "Master secret has been persisted to disk."
