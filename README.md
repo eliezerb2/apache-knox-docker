@@ -9,7 +9,7 @@ This repository is forked from [pfisterer/apache-knox-docker](https://github.com
 * [Tools for Running Knox in Docker](https://pzampino.github.io/2018/10/25/docker-tools-for-knox.html)
 
 ## Goal
-This repository was created to demonstrate the ability of [Apache Knox](https://knox.apache.org/https://knox.apache.org/) to be a generic gateway for any service (not restricted to Hadoop), with high-availability.
+This repository was created to demonstrate the ability of [Apache Knox](https://knox.apache.org) to be a generic gateway for any service (not restricted to Hadoop), with high-availability.
 
 ## How to use
 Use Docker Compose to start all services, and access the following URLs:
@@ -23,8 +23,8 @@ Password - admin-password
 
 ## Repository Structure
 The following diagram depicts the structure of the repository:
-![Repository structure](design/RepositoryStructure.drawio.svg#gh-dark-mode-only)
+![Repository structure](Design/RepositoryStructure.drawio.svg#gh-dark-mode-only)
 
 ## Knox design
 The following diagram depicts the design of the Knox implementation:
-![Repository structure](design/KnoxDesign.drawio.svg#gh-dark-mode-only)
+![Repository structure](Design/KnoxDesign.drawio.svg#gh-dark-mode-only)
