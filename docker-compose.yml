@@ -1,39 +1,35 @@
 version: '3.8'
 
+x-healthcheck-default:
+  &healthcheck-default
+  interval: ${HEALTH_INTERVAL}
+  timeout: ${HEALTH_TIMEOUT}
+  retries: ${HEALTH_RETRIES}
+  start_period: ${HEALTH_START_PERIOD}
+  start_interval: ${HEALTH_START_INTERVAL}
+x-servicea:
+  &servicea
+  image: ${NGINX_IMAGE}
+  healthcheck:
+    << : *healthcheck-default
+    test: ["CMD", "curl", "", 
+      "http://localhost:${SERVICEA_INTERNAL_PORT}"]
+
 services:
   servicea1:
+    << : *servicea
     container_name: servicea1
-    image: ${NGINX_IMAGE}
     ports:
       - "${SERVICEA1_EXTERNAL_PORT}:${SERVICEA_INTERNAL_PORT}"
     volumes:
       - ./servicea1:/usr/share/nginx/html
-    healthcheck:
-        test: ["CMD", "curl", "", 
-          "http://localhost:${SERVICEA1_INTERNAL_PORT}"]
-        interval: ${HEALTH_INTERVAL}
-        timeout: ${HEALTH_TIMEOUT}
-        retries: ${HEALTH_RETRIES}
-        start_period: ${HEALTH_START_PERIOD}
-        start_interval: ${HEALTH_START_INTERVAL}
-    #curl http://servicea1:80/index.html
-    #http://localhost:8081/
   servicea2:
+    << : *servicea
     container_name: servicea2
-    image: ${NGINX_IMAGE}
     ports:
       - "${SERVICEA2_EXTERNAL_PORT}:${SERVICEA_INTERNAL_PORT}"
     volumes:
       - ./servicea2:/usr/share/nginx/html
-    healthcheck:
-        test: ["CMD", "curl", "", 
-          "http://localhost:${SERVICEA2_INTERNAL_PORT}"]
-        interval: ${HEALTH_INTERVAL}
-        timeout: ${HEALTH_TIMEOUT}
-        retries: ${HEALTH_RETRIES}
-        start_period: ${HEALTH_START_PERIOD}
-        start_interval: ${HEALTH_START_INTERVAL}
-    #http://localhost:8082/
   knoxgw:
     container_name: knoxgw
     image: knoxgw
@@ -55,10 +51,6 @@ services:
     #curl -kf https://localhost:8445/gateway/manager/admin-ui
     #curl -ku admin:admin-password https://localhost:8445/gateway/anyservice/servicea/index.html
     healthcheck:
+        << : *healthcheck-default
         test: ["CMD", "curl", "-ku admin:admin-password", 
           "https://localhost:${KNOX_INTERNAL_PORT}/gateway/anyservice/servicea/index.html"]
-        interval: ${HEALTH_INTERVAL}
-        timeout: ${HEALTH_TIMEOUT}
-        retries: ${HEALTH_RETRIES}
-        start_period: ${HEALTH_START_PERIOD}
-        start_interval: ${HEALTH_START_INTERVAL}
