@@ -12,15 +12,15 @@ This repository is forked from [pfisterer/apache-knox-docker](https://github.com
 This repository was created to demonstrate the ability of [Apache Knox](https://knox.apache.org) to be a generic gateway for any service (not restricted to Hadoop), with high-availability.
 
 ## How to use
-Use Docker Compose to start all services, and access the following URLs:
-* [Knox Admin UI](https://localhost:8445/gateway/manager/admin-ui/)
-* [Highly Available Service A](https://localhost:8445/gateway/anyservice/servicea/index.html)
-* [Service A Instance 1](https://localhost:8081/index.html)
-* [Service A Instance 2](https://localhost:8082/index.html)
-
-The credentials are:\
+Use the following credentials:\
 Username - admin\
 Password - admin-password
+* Use Docker Compose to start all services 
+* Use a browser to access [Service A](https://localhost:8445/gateway/anyservice/servicea/index.html)
+* Stop servicea1 Docker container
+* Refresh the page...
+
+You can also access the [Knox Admin UI](https://localhost:8445/gateway/manager/admin-ui/)
 
 ## Repository Structure
 The following diagram depicts the structure of the repository:
