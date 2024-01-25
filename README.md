@@ -12,4 +12,4 @@ This repository is forked from [pfisterer/apache-knox-docker](https://github.com
 This repository was created to demonstrate the ability of [Apache Knox](https://knox.apache.org/https://knox.apache.org/) to be a generic gateway for any service (not restricted to Hadoop), with high-availability.
 
 ## Structure
-[Repository structure](ApacheKnoxDockerDesign.png)
+![Repository structure](ApacheKnoxDockerDesign.drawio.svg)
