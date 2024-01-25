@@ -13,10 +13,10 @@ This repository was created to demonstrate the ability of [Apache Knox](https://
 
 ## How to use
 Use Docker Compose to start all services, and access the following URLs:
-* [Knox Admin UI](https://localhost:8445/gateway/manager/admin-ui/){:target="_blank"}
-* [Highly Available Service A](https://localhost:8445/gateway/anyservice/servicea/index.html){:target="_blank"}
-* [Service A Instance 1](https://localhost:8081/index.html){:target="_blank"}
-* [Service A Instance 2](https://localhost:8082/index.html){:target="_blank"}
+* [Knox Admin UI](https://localhost:8445/gateway/manager/admin-ui/)
+* [Highly Available Service A](https://localhost:8445/gateway/anyservice/servicea/index.html)
+* [Service A Instance 1](https://localhost:8081/index.html)
+* [Service A Instance 2](https://localhost:8082/index.html)
 
 The credentials are:\
 Username - admin\
